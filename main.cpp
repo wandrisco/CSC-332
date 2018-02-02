@@ -2,6 +2,8 @@
 #include <math.h>
 #include <stdlib.h> //included for rand
 #include <time.h> //included for time
+#include <fstream> //im gonna try to save to a file
+#include <ctime>
 
 using namespace std;
 
@@ -67,25 +69,44 @@ int originalEuclid(){
 
 void originalEuclid100() {
     int a, b, remainder, quotient, gcd;
-    for (int i = 1; i <= 100; ++i) {
-        a = rand() % 100 + 1;
-        b = rand() % 99 + 1;
-        if ((a || b) >= 1){
-            cout << i << ". " << endl;
-            cout << "The current value for a: " << a << endl; //debug cout
-            cout << "The current value for b: " << b << endl;
-            do {
-                quotient = (a / b);
-                remainder = (a - quotient * b);
-                a = b;
-                b = remainder;
-                gcd = a;
-            } while (remainder != 0);
-            cout << "The GCD for Euclid's Original Algorithm is: " << gcd << endl << endl;
+    double msecs;
+    clock_t start, end;
+
+    ofstream myFile ("100Euclid.csv");
+    if (myFile.is_open()){
+        start = clock();
+        for (int i = 1; i <= 100; ++i) {
+            a = rand() % 100 + 1;
+            b = rand() % 99 + 1;
+            if ((a || b) >= 1){
+                cout << i << ". " << endl;
+                myFile << i << ". " << endl;
+                cout << "The current value for a: " << a << endl;
+                myFile << "The current value for a: " << a << endl;
+                cout << "The current value for b: " << b << endl;
+                myFile << "The current value for b: " << b << endl;
+
+                do {
+                    quotient = (a / b);
+                    remainder = (a - quotient * b);
+                    a = b;
+                    b = remainder;
+                    gcd = a;
+                } while (remainder != 0);
+                cout << "The GCD for Euclid's Original Algorithm is: " << gcd << endl << endl;
+                myFile << "The GCD for Euclid's Original Algorithm is: " << gcd << endl << endl;
+                end = clock();
+                msecs = ((double) (end - start)) * 1000 / CLOCKS_PER_SEC;
+                cout << "The time it takes is: " << msecs << " milliseconds" << endl << endl;
+                myFile << "The time it takes is: " << msecs << " milliseconds" << endl << endl;
+
+            }
+            else {
+                cout << "The GCD for Euclid's Original Algorithm is: 0" << endl << endl;
+                myFile << "The GCD for Euclid's Original Algorithm is: 0" << endl << endl;
+            }
         }
-        else {
-            cout << "The GCD for Euclid's Original Algorithm is: 0" << endl << endl;
-        }
+
     }
 }
 
@@ -95,7 +116,6 @@ void improvedEuclid() {
     cin >> a;
     cout << "Please input a integer value for b: ";
     cin >> b;
-
 
     if (a >= b > 0) {
 
