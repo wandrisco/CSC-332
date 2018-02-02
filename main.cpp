@@ -49,43 +49,42 @@ int originalEuclid(){
     cin >> b;
 
     if ((a && b) >= 1){
-        cout << "The current value for a: " << a << endl; //debug cout
-        cout << "The current value for b: " << b << endl;
-        while (remainder != 0){
+        /*cout << "The current value for a: " << a << endl; //debug cout
+        cout << "The current value for b: " << b << endl;*/
+        do {
             quotient = (a / b);
             remainder = (a - quotient * b);
             a = b;
             b = remainder;
             gcd = a;
-        }
-        cout << "The GCD for Euclid's Original Algorithm is: " << gcd << endl << endl;
-
+        } while (remainder != 0);
+        cout << "The GCD for Euclid's Original Algorithm is: " << gcd << endl;
     }
     else {
         cout << "The GCD for Euclid's Original Algorithm is: 0" << endl << endl;
     }
 }
 
-//for some fuck odd reason only spits out a...
 void originalEuclid100() {
-    int a, b, remainder, quotient;
-    for (int i = 0; i <= 1; i++) {
+    int a, b, remainder, quotient, gcd;
+    for (int i = 1; i <= 100; ++i) {
         a = rand() % 100 + 1;
-        b = rand() & 99 + 1;
+        b = rand() % 99 + 1;
         if ((a || b) >= 1){
             cout << i << ". " << endl;
             cout << "The current value for a: " << a << endl; //debug cout
             cout << "The current value for b: " << b << endl;
-            while (remainder != 0){
-                quotient = (a%b);
-                remainder = (a - (quotient * b));
+            do {
+                quotient = (a / b);
+                remainder = (a - quotient * b);
                 a = b;
                 b = remainder;
-            }
-            cout << "The GCD for Euclid's Original Algorithm is: " << a << endl << endl;
+                gcd = a;
+            } while (remainder != 0);
+            cout << "The GCD for Euclid's Original Algorithm is: " << gcd << endl << endl;
         }
         else {
-            cout << "The inputs are less than one." << endl;
+            cout << "The GCD for Euclid's Original Algorithm is: 0" << endl << endl;
         }
     }
 }
@@ -96,26 +95,28 @@ void improvedEuclid() {
     cin >> a;
     cout << "Please input a integer value for b: ";
     cin >> b;
+
+
     if (a >= b > 0) {
-        while (remainder != 0) {
+
+        do {
             remainder = a - b;
             if (remainder > b) {
                 remainder = (remainder - b);
                 if (remainder > b) {
                     remainder = (remainder - b);
                     if (remainder > b) {
-                        remainder = (a - (b * (a % b)));
+                        remainder = (a - (b * (a / b)));
                     }
                 }
             }
             a = b;
             b = remainder;
-            cout << "The GCD of Euclid's Advanced Algorithm is: " << a << endl;
-
-        }
+        } while (remainder != 0);
+        cout << "The GCD of Euclid's Advanced Algorithm is: " << a << endl;
     }
     else {
-        cout <<"You got to the else function, congrats..." << endl;
+        cout <<"The inputs do not successfully pass the precursor. (a >=b)" << endl;
     }
 }
 
