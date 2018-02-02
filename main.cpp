@@ -2,7 +2,7 @@
 #include <math.h>
 #include <stdlib.h> //included for rand
 #include <time.h> //included for time
-#include <fstream> //im gonna try to save to a file
+#include <fstream>
 #include <ctime>
 
 using namespace std;
@@ -43,7 +43,7 @@ void Fibonacci() {
     cout << "N-1 of " << n << " is " << decResult << endl << endl;
 }
 
-int originalEuclid(){
+void originalEuclid(){
     int a, b, remainder, quotient, gcd;
     cout << "Please input an integer value for a: ";
     cin >> a;
@@ -71,11 +71,10 @@ void originalEuclid100() {
     int a, b, remainder, quotient, gcd;
     double msecs;
     clock_t start, end;
-
     ofstream myFile ("100Euclid.csv");
     if (myFile.is_open()){
-        start = clock();
         for (int i = 1; i <= 100; ++i) {
+            start = clock();
             a = rand() % 100 + 1;
             b = rand() % 99 + 1;
             if ((a || b) >= 1){
@@ -85,7 +84,6 @@ void originalEuclid100() {
                 myFile << "The current value for a: " << a << endl;
                 cout << "The current value for b: " << b << endl;
                 myFile << "The current value for b: " << b << endl;
-
                 do {
                     quotient = (a / b);
                     remainder = (a - quotient * b);
@@ -99,7 +97,6 @@ void originalEuclid100() {
                 msecs = ((double) (end - start)) * 1000 / CLOCKS_PER_SEC;
                 cout << "The time it takes is: " << msecs << " milliseconds" << endl << endl;
                 myFile << "The time it takes is: " << msecs << " milliseconds" << endl << endl;
-
             }
             else {
                 cout << "The GCD for Euclid's Original Algorithm is: 0" << endl << endl;
