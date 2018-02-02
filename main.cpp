@@ -93,8 +93,8 @@ void originalEuclid100() {
                     b = remainder;
                     gcd = a;
                 } while (remainder != 0);
-                cout << "The GCD for Euclid's Original Algorithm is: " << gcd << endl << endl;
-                myFile << "The GCD for Euclid's Original Algorithm is: " << gcd << endl << endl;
+                cout << "The GCD for Euclid's Original Algorithm is: " << gcd << endl;
+                myFile << "The GCD for Euclid's Original Algorithm is: " << gcd << endl;
                 end = clock();
                 msecs = ((double) (end - start)) * 1000 / CLOCKS_PER_SEC;
                 cout << "The time it takes is: " << msecs << " milliseconds" << endl << endl;
