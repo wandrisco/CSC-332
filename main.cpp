@@ -9,9 +9,26 @@ using namespace std;
 
 void menu(), returnMenu(), choice(int input);
 
+<<<<<<< HEAD
 
 
 
+=======
+int randArr[100];
+
+void makeArray() {
+
+    int i;
+
+    for (i = 1; i <= 100; i++) {
+
+        randArr[i] = rand() % 100;
+        randArr[i+1] = rand() % 99 + 1;
+    }
+
+
+}
+>>>>>>> 17b241a88ec845c531a47df9d16c6d062b3e6afd
 
 void Fibonacci() {
     int n, logResult, decResult;
@@ -81,8 +98,14 @@ void originalEuclid100(int a, int b) {
     if (myFile.is_open()){
         for (int i = 0; i <= 100; ++i) {
             start = clock();
+<<<<<<< HEAD
             //a = rand() % 100 + 1;
             //b = rand() % 99 + 1;
+=======
+            //maybe call makearray here?
+            a = rand() % 100 + 1;
+            b = rand() % 99 + 1;
+>>>>>>> 17b241a88ec845c531a47df9d16c6d062b3e6afd
             if ((a || b) >= 1){
                 cout << i << ". " << endl;
                 myFile << i << ". " << endl;
