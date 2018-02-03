@@ -9,6 +9,10 @@ using namespace std;
 
 void menu(), returnMenu(), choice(int input);
 
+
+
+
+
 void Fibonacci() {
     int n, logResult, decResult;
     double t1 = 0, t2 = 1, nextTerm = 0, finalTerm;
@@ -67,16 +71,18 @@ void originalEuclid(){
     }
 }
 
-void originalEuclid100() {
-    int a, b, remainder, quotient, gcd;
+void originalEuclid100(int a, int b) {
+    //int a, b;
+
+    int remainder, quotient, gcd;
     double msecs;
     clock_t start, end;
     ofstream myFile ("100Euclid.csv");
     if (myFile.is_open()){
-        for (int i = 1; i <= 100; ++i) {
+        for (int i = 0; i <= 100; ++i) {
             start = clock();
-            a = rand() % 100 + 1;
-            b = rand() % 99 + 1;
+            //a = rand() % 100 + 1;
+            //b = rand() % 99 + 1;
             if ((a || b) >= 1){
                 cout << i << ". " << endl;
                 myFile << i << ". " << endl;
@@ -103,7 +109,7 @@ void originalEuclid100() {
                 myFile << "The GCD for Euclid's Original Algorithm is: 0" << endl << endl;
             }
         }
-
+        myFile.close();
     }
 }
 
@@ -115,7 +121,6 @@ void improvedEuclid() {
     cin >> b;
 
     if (a >= b > 0) {
-
         do {
             remainder = a - b;
             if (remainder > b) {
@@ -137,6 +142,36 @@ void improvedEuclid() {
     }
 }
 
+void improvedEuclid100(){
+
+}
+
+
+
+void random100Numbers(){
+    static int randomA[100], randomB[100];
+    int a, b, i = 0;
+    for (int i = 0; i <= 99; ++i){
+        randomA[i] = rand() % 100 + 0;
+        randomB[i] = rand() % 100 + 0;
+        cout << "The random value for a" << i <<" is: " << randomA[i] << endl;
+        cout << "The random value for b" << i <<" is: " << randomB[i] << endl;
+    }
+    cout << endl;
+    while (i <= 100) {
+        a = randomA[i];
+        b = randomB[i];
+        i++;
+        originalEuclid100(a, b);
+    }
+    cout << "the fucking value of i: " << i;
+
+
+}
+
+
+
+
 void menu() {
     int input;
     cout << "*CSC 332*\n"
@@ -145,7 +180,8 @@ void menu() {
          << "2 - Euclid's Original Algorithm\n"
          << "3 - Euclid's Improved Algorithm\n"
          << "4 - Euclid's Original 100 Times\n"
-         << "5 - Terminate Program\n\n";
+         << "5 - Random Numbers\n"
+         << "9 - Terminate Program\n\n";
     cout << "Enter a menu option: ";
     cin >> input;
     cin.ignore();
@@ -191,10 +227,14 @@ void choice(int input) {
                 returnMenu();
                 break;
             case 4:
-                originalEuclid100();
+                //originalEuclid100();
                 returnMenu();
                 break;
             case 5:
+                random100Numbers();
+                returnMenu();
+                break;
+            case 9:
                 exit(1);
             default:
                 cout << "Invalid Menu Option. Please enter new option: ";
