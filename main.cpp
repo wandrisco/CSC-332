@@ -9,26 +9,9 @@ using namespace std;
 
 void menu(), returnMenu(), choice(int input);
 
-<<<<<<< HEAD
 
 
 
-=======
-int randArr[100];
-
-void makeArray() {
-
-    int i;
-
-    for (i = 1; i <= 100; i++) {
-
-        randArr[i] = rand() % 100;
-        randArr[i+1] = rand() % 99 + 1;
-    }
-
-
-}
->>>>>>> 17b241a88ec845c531a47df9d16c6d062b3e6afd
 
 void Fibonacci() {
     int n, logResult, decResult;
@@ -98,14 +81,8 @@ void originalEuclid100(int a, int b) {
     if (myFile.is_open()){
         for (int i = 0; i <= 100; ++i) {
             start = clock();
-<<<<<<< HEAD
             //a = rand() % 100 + 1;
             //b = rand() % 99 + 1;
-=======
-            //maybe call makearray here?
-            a = rand() % 100 + 1;
-            b = rand() % 99 + 1;
->>>>>>> 17b241a88ec845c531a47df9d16c6d062b3e6afd
             if ((a || b) >= 1){
                 cout << i << ". " << endl;
                 myFile << i << ". " << endl;
@@ -128,8 +105,13 @@ void originalEuclid100(int a, int b) {
                 myFile << "The time it takes is: " << msecs << " milliseconds" << endl << endl;
             }
             else {
+                start = clock();
                 cout << "The GCD for Euclid's Original Algorithm is: 0" << endl << endl;
                 myFile << "The GCD for Euclid's Original Algorithm is: 0" << endl << endl;
+                end = clock();
+                msecs = ((double) (end - start)) * 1000 / CLOCKS_PER_SEC;
+                cout << "The time it takes is: " << msecs << " milliseconds" << endl << endl;
+                myFile << "The time it takes is: " << msecs << " milliseconds" << endl << endl;
             }
         }
         myFile.close();
@@ -169,7 +151,10 @@ void improvedEuclid100(){
 
 }
 
-
+/*
+ * RANDOM100NUMBERS fills two arrays with random ints and passes into euclidoriginal100
+ * for some reason, when passing the values, only passing the first elements of the arrays into euclidoriginal100
+ */
 
 void random100Numbers(){
     static int randomA[100], randomB[100];
@@ -194,7 +179,10 @@ void random100Numbers(){
 
 
 
-
+/*
+ * this is displayed when main is ran.
+ * the CHOICE function coordinates with the menu function.
+*/
 void menu() {
     int input;
     cout << "*CSC 332*\n"
@@ -211,7 +199,10 @@ void menu() {
     cout << endl;
     choice(input);
 }
-
+/*
+ * RETURNMENU ask the user if they would like to return to the MENU function
+ * if the user hits N, the function is repeated
+ */
 void returnMenu() {
     char input;
     cout << "Return to Main Menu? (y/n)\n";
@@ -234,6 +225,10 @@ void returnMenu() {
     }
 }
 
+/*
+ * this coordinates with the MENU function
+ * case 'x' means that is the key you enter to call that function
+ */
 void choice(int input) {
     while (input) {
         switch (input) {
@@ -270,6 +265,6 @@ void choice(int input) {
 }
 
 int main() {
-    menu();
+    menu(); //this calls the menu function, which displays the possible menu options
     return 0;
 }
