@@ -194,6 +194,36 @@ void improvedEuclid100(int a[100], int b[100], int length){
                 myFile << "The time it takes is: " << msecs1 << " milliseconds" << endl << endl;
                 i++;
             }
+            else if ((b[i] >= a[i]) && (a[i] > 0)) { // if b is greater from previous if statement, a and b switched utilizing Improved algorithm
+                start2 = clock();
+                cout << i << ". " << endl;
+                myFile << i << ". " << endl;
+                cout << "The current value for a: " << a[i] << endl; // cout the current randomly generated value for a
+                myFile << "The current value for a: " << a[i] << endl;
+                cout << "The current value for b: " << b[i] << endl; // cout the current randomly generated value for b
+                myFile << "The current value for b: " << b[i] << endl;
+                do { // Iproved Euclid algorithm with a and b switched from previously
+                    remainder = b[i] - a[i];
+                    if (remainder > a[i]) {
+                        remainder = (remainder - a[i]);
+                        if (remainder > a[i]) {
+                            remainder = (remainder - a[i]);
+                            if (remainder > a[i]) {
+                                remainder = (b[i] - (a[i] * (b[i] / a[i])));
+                            }
+                        }
+                    }
+                    b[i] = a[i];
+                    a[i] = remainder;
+                } while (remainder != 0);
+                cout << "The GCD of Euclid's Improved Algorithm is: " << b[i] << endl;
+                myFile << "The GCD of Euclid's Improved Algorithm is: " << b[i] << endl;
+                end2 = clock(); // end time
+                msecs2 = ((double) (end2 - start2)) * 1000 / CLOCKS_PER_SEC; // needed to calculate milliseconds
+                cout << "The time it takes is: " << msecs2 << " milliseconds" << endl << endl;
+                myFile << "The time it takes is: " << msecs2 << " milliseconds" << endl << endl;
+                i++; // incrementing for the for loop
+			}
             else {
                 start2 = clock();
                 cout << i << ". " << endl;
