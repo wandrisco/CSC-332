@@ -7,7 +7,6 @@ using namespace std;
 
 void menu(), returnMenu(), choice(int input);
 
-
 void Fibonacci() {
     int n, logResult, decResult;
     double t1 = 0, t2 = 1, nextTerm = 0, finalTerm;
@@ -59,7 +58,7 @@ void originalEuclid(){
             b = remainder;
             gcd = a;
         } while (remainder != 0);
-        cout << "The GCD for Euclid's Original Algorithm is: " << gcd << endl;
+        cout << "The GCD for Euclid's Original Algorithm is: " << gcd << endl << endl;
     }
     else {
         cout << "The GCD for Euclid's Original Algorithm is: 0" << endl << endl;
@@ -153,89 +152,94 @@ void improvedEuclid100(int a[100], int b[100], int length){
     clock_t start1, end1, start2, end2, start3, end3, msecs3;
     ofstream myFile ("100improvedEuclid.csv");
 
-    for (int i = 0; i <= length; i++) {
-        do {
+    if (myFile.is_open()){
+        for (int i = 0; i <= length; i++) {
+            do {
 
-            if ((a[i] >= b[i]) && (b[i] > 0)) {
-                start1 = clock();
-                cout << i << ". " << endl;
-                myFile << i << ". " << endl;
-                cout << "The current value for a: " << a[i] << endl;
-                myFile << "The current value for a: " << a[i] << endl;
-                cout << "The current value for b: " << b[i] << endl;
-                myFile << "The current value for b: " << b[i] << endl;
-                do {
-                    remainder = a[i] - b[i];
-                    if (remainder > b[i]) {
-                        remainder = (remainder - b[i]);
+                if ((a[i] >= b[i]) && (b[i] > 0)) {
+                    start1 = clock();
+                    cout << i << ". " << endl;
+                    myFile << i << ". " << endl;
+                    cout << "The current value for a: " << a[i] << endl;
+                    myFile << "The current value for a: " << a[i] << endl;
+                    cout << "The current value for b: " << b[i] << endl;
+                    myFile << "The current value for b: " << b[i] << endl;
+                    do {
+                        remainder = a[i] - b[i];
                         if (remainder > b[i]) {
                             remainder = (remainder - b[i]);
                             if (remainder > b[i]) {
-                                remainder = (a[i] - (b[i] * (a[i] / b[i])));
+                                remainder = (remainder - b[i]);
+                                if (remainder > b[i]) {
+                                    remainder = (a[i] - (b[i] * (a[i] / b[i])));
+                                }
                             }
                         }
-                    }
-                    a[i] = b[i];
-                    b[i] = remainder;
-                } while (remainder != 0);
-                cout << "The GCD of Euclid's Improved Algorithm is: " << a[i] << endl;
-                myFile << "The GCD of Euclid's Improved Algorithm is: " << a[i] << endl;
-                end1 = clock();
-                msecs1 = ((double) (end1 - start1)) * 1000 / CLOCKS_PER_SEC;
-                cout << "The time it takes is: " << msecs1 << " milliseconds" << endl << endl;
-                myFile << "The time it takes is: " << msecs1 << " milliseconds" << endl << endl;
-                i++;
-            }
-            else if ((b[i] >= a[i]) && (a[i] > 0)) { // if b is greater from previous if statement, a and b switched utilizing Improved algorithm
-                start2 = clock();
-                cout << i << ". " << endl;
-                myFile << i << ". " << endl;
-                cout << "The current value for a: " << a[i] << endl; // cout the current randomly generated value for a
-                myFile << "The current value for a: " << a[i] << endl;
-                cout << "The current value for b: " << b[i] << endl; // cout the current randomly generated value for b
-                myFile << "The current value for b: " << b[i] << endl;
-                do { // Improved Euclid algorithm with a and b switched from previously
-                    remainder = b[i] - a[i];
-                    if (remainder > a[i]) {
-                        remainder = (remainder - a[i]);
+                        a[i] = b[i];
+                        b[i] = remainder;
+                    } while (remainder != 0);
+                    cout << "The GCD of Euclid's Improved Algorithm is: " << a[i] << endl;
+                    myFile << "The GCD of Euclid's Improved Algorithm is: " << a[i] << endl;
+                    end1 = clock();
+                    msecs1 = ((double) (end1 - start1)) * 1000 / CLOCKS_PER_SEC;
+                    cout << "The time it takes is: " << msecs1 << " milliseconds" << endl << endl;
+                    myFile << "The time it takes is: " << msecs1 << " milliseconds" << endl << endl;
+                    i++;
+                }
+                else if ((b[i] >= a[i]) && (a[i] > 0)) { // if b is greater from previous if statement, a and b switched utilizing Improved algorithm
+                    start2 = clock();
+                    cout << i << ". " << endl;
+                    myFile << i << ". " << endl;
+                    cout << "The current value for a: " << a[i] << endl; // cout the current randomly generated value for a
+                    myFile << "The current value for a: " << a[i] << endl;
+                    cout << "The current value for b: " << b[i] << endl; // cout the current randomly generated value for b
+                    myFile << "The current value for b: " << b[i] << endl;
+                    do { // Improved Euclid algorithm with a and b switched from previously
+                        remainder = b[i] - a[i];
                         if (remainder > a[i]) {
                             remainder = (remainder - a[i]);
                             if (remainder > a[i]) {
-                                remainder = (b[i] - (a[i] * (b[i] / a[i])));
+                                remainder = (remainder - a[i]);
+                                if (remainder > a[i]) {
+                                    remainder = (b[i] - (a[i] * (b[i] / a[i])));
+                                }
                             }
                         }
-                    }
-                    b[i] = a[i];
-                    a[i] = remainder;
-                } while (remainder != 0);
-                cout << "The GCD of Euclid's Improved Algorithm is: " << b[i] << endl;
-                myFile << "The GCD of Euclid's Improved Algorithm is: " << b[i] << endl;
-                end2 = clock(); // end time
-                msecs2 = ((double) (end2 - start2)) * 1000 / CLOCKS_PER_SEC; // needed to calculate milliseconds
-                cout << "The time it takes is: " << msecs2 << " milliseconds" << endl << endl;
-                myFile << "The time it takes is: " << msecs2 << " milliseconds" << endl << endl;
-                i++; // incrementing for the for loop
-            }
-            else {
-                start3 = clock();
-                cout << i << ". " << endl;
-                myFile << i << ". " << endl;
-                cout << "The current value for a: " << a[i] << endl;
-                myFile << "The current value for a: " << a[i] << endl;
-                cout << "The current value for b: " << b[i] << endl;
-                myFile << "The current value for b: " << b[i] << endl;
-                cout << "The GCD of Euclid's Improved Algorithm is: 0" << endl;
-                myFile << "The GCD of Euclid's Improved Algorithm is: 0" << endl;
-                end3 = clock();
-                msecs3 = ((double) (end3 - start3)) * 1000 / CLOCKS_PER_SEC;
-                cout << "The time it takes is: " << msecs3 << " milliseconds" << endl << endl;
-                myFile << "The time it takes is: " << msecs3 << " milliseconds" << endl << endl;
-                i++;
-            }
-        } while (i <=99);
-        //end = clock();
+                        b[i] = a[i];
+                        a[i] = remainder;
+                    } while (remainder != 0);
+                    cout << "The GCD of Euclid's Improved Algorithm is: " << b[i] << endl;
+                    myFile << "The GCD of Euclid's Improved Algorithm is: " << b[i] << endl;
+                    end2 = clock(); // end time
+                    msecs2 = ((double) (end2 - start2)) * 1000 / CLOCKS_PER_SEC; // needed to calculate milliseconds
+                    cout << "The time it takes is: " << msecs2 << " milliseconds" << endl << endl;
+                    myFile << "The time it takes is: " << msecs2 << " milliseconds" << endl << endl;
+                    i++; // incrementing for the for loop
+                }
+                else {
+                    start3 = clock();
+                    cout << i << ". " << endl;
+                    myFile << i << ". " << endl;
+                    cout << "The current value for a: " << a[i] << endl;
+                    myFile << "The current value for a: " << a[i] << endl;
+                    cout << "The current value for b: " << b[i] << endl;
+                    myFile << "The current value for b: " << b[i] << endl;
+                    cout << "The GCD of Euclid's Improved Algorithm is: 0" << endl;
+                    myFile << "The GCD of Euclid's Improved Algorithm is: 0" << endl;
+                    end3 = clock();
+                    msecs3 = ((double) (end3 - start3)) * 1000 / CLOCKS_PER_SEC;
+                    cout << "The time it takes is: " << msecs3 << " milliseconds" << endl << endl;
+                    myFile << "The time it takes is: " << msecs3 << " milliseconds" << endl << endl;
+                    i++;
+                }
+            } while (i <=99);
+            //end = clock();
+        }
+        myFile.close();
+    } else {
+        cout << "Could not open the file" << endl;
     }
-    myFile.close();
+
 }
 
 void assignment1(){
@@ -280,6 +284,104 @@ void assignment1(){
     improvedEuclid100(randomA_copy1, randomB_copy1, 100);
 }
 
+/*
+ *merge takes a list and points to the start of it I THINK>!!?#
+ * low = 0
+ * high changes to merge sorted list
+ */
+void merge(int *arr, int low, int high) {
+    //mid = the floor value of the half the # of elements in the list
+    int mid = floor((low + high)/2);
+    //these are temporary values to fill the array
+    int t1 = 0, t2 = low, t3 = mid + 1;
+
+    //creating a temp array the length of high - low + 1
+    int temp[high - low + 1];
+
+    //while loop t2 = low value & t3 = mid + 1
+    //high = the highest value of the smallest list (remember, we are merging here)
+    while (t2 <= mid && t3 <= high) {
+        //if the value at t2 in arr is < value at t3 in arr
+        if (arr[t2] < arr[t3]) {
+            //t1++ in temp is set to the value of t2++ in arr
+            temp[t1++] = arr[t2++];
+        }
+        //if the value at t2 in arr is > or = the value of t2 in arr
+        else {
+            //the value of t1++ of temp is set to the value of t3++ in arr
+            temp[t1++] = arr[t3++];
+        }
+    } //end while
+
+    //while the value of t2 <= mid
+    //int mid = floor((low + high)/2);
+    //pretty sure this is merging the left side of the array
+    while (t2 <= mid) {
+        //update t1 in temp to t2 in arr until exit condition
+        temp[t1++] = arr[t2++];
+    }
+
+    //while the value of t3 <= high
+    //high is passed in value
+    while (t3 <= high) {
+        //update temp t1 from temp t3 value until exit condition
+        temp[t1++] = temp[t3++];
+    }
+
+    //replace the temp values into the original array
+    //this is the value that is returned to be printed
+    for (int i = low; i <= high; i++) {
+        arr[i] = temp[i-low];
+    }
+
+}
+
+/*
+ * mergesort receives an int and points to the beginning of it I THINK
+ * int low is always 0
+ * int high is the max amount in the list
+ */
+void mergeSort(int *arr, int low, int high){
+    //if there is more than one element in the list
+    if (low < high) {
+        //take the floor value of the # of elements in the array / 2 and name it mid
+        int mid = floor((low + high) / 2);
+        //call mergeSort using the new name of the list (arr) with low = 0 and mid = half the array size
+        mergeSort(arr, low, mid);
+        //call mergeSort using the same list with low = 0 and mid = 2 (if original high = 9), and high = previous mid
+        mergeSort(arr, mid + 1, high);
+        //call merge passing the list and the low = 0 and high = 4
+        merge(arr, low, high);
+    }
+
+}
+
+void assignment2(){
+
+    //creating a list of 10 elements
+    int list1[10] = {900, 300, 400, 500, 200, 100, 550, 700, 1000, 2000};
+
+    cout << "List 1 is as stated unsorted: ";
+    //printing the unsorted list1
+    for (int i=0; i<=9; i++){
+        cout << list1[i] << " ";
+    }
+    cout << endl;
+
+    //calling mergesort with params (array, low, high)
+    mergeSort(list1, 0, 9);
+
+    cout << "List 1 is as stated sorted: ";
+    //print sorted list1
+    for (int i=0; i<=9; i++){
+        cout << list1[i] << " ";
+    }
+    cout << endl << endl;
+
+}
+
+
+
 void menu() {
     int input;
     cout << "*CSC 332*\n"
@@ -288,6 +390,7 @@ void menu() {
          << "2 - Euclid's Original Algorithm\n"
          << "3 - Euclid's Improved Algorithm\n"
          << "4 - Programming Assignment 1\n"
+         << "5 - Programming Assignment 2\n"
          << "9 - Terminate Program\n\n";
     cout << "Enter a menu option: ";
     cin >> input;
@@ -339,6 +442,7 @@ void choice(int input) {
                 returnMenu();
                 break;
             case 5:
+                assignment2();
                 returnMenu();
                 break;
             case 9:
