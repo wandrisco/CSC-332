@@ -436,51 +436,37 @@ void assignment1(){
  * low = 0
  * high changes to merge sorted list
  */
-void merge(int *arr, int low, int high) {
-    //mid = the floor value of the half the # of elements in the list
-    int mid = floor((low + high)/2);
-    //these are temporary values to fill the array
-    int t1 = 0, t2 = low, t3 = mid + 1;
+void Merge(int A[],int p, int q,int r) {
+    int n1=q-p+1,i,j,k;       /*n1 is the size of L[]*/
+    int n2=r-q;               /*n2 is the sixe of R[]*/
+    int L[n1],R[n2];
 
-    //creating a temp array the length of high - low + 1
-    int temp[high - low + 1];
+    for(i=0;i<n1;i++) {
+        L[i]=A[p+i];
+    }
 
-    //while loop t2 = low value & t3 = mid + 1
-    //high = the highest value of the smallest list (remember, we are merging here)
-    while (t2 <= mid && t3 <= high) {
-        //if the value at t2 in arr is < value at t3 in arr
-        if (arr[t2] < arr[t3]) {
-            //t1 in temp is set to the value of t2 in arr and index is incremented
-            temp[t1++] = arr[t2++];
+    for(j=0;j<n2;j++) {
+        R[j]=A[q+j+1];
+    }
+
+    i=0,j=0;
+
+    for(k=p;i<n1&&j<n2;k++) {
+        if(L[i]<R[j]) {
+            A[k]=L[i++];
         }
-        //if the value at t2 in arr is > or = the value of t2 in arr
         else {
-            //the value of t1++ of temp is set to the value of t3++ in arr
-            temp[t1++] = arr[t3++];
+            A[k]=R[j++];
         }
-    } //end while
-
-    //while the value of t2 <= mid
-    //int mid = floor((low + high)/2);
-    //pretty sure this is merging the left side of the array
-    while (t2 <= mid) {
-        //update t1 in temp to t2 in arr until exit condition
-        temp[t1++] = arr[t2++];
     }
 
-    //while the value of t3 <= high
-    //high is passed in value
-    while (t3 <= high) {
-        //update temp t1 from temp t3 value until exit condition
-        temp[t1++] = temp[t3++];
+    while(i<n1) {             /*If L[] has more elements than R[] then it will put all the reamining elements of L[] into A[]*/
+        A[k++]=L[i++];
     }
 
-    //replace the temp values into the original array
-    //this is the value that is returned to be printed
-    for (int i = low; i <= high; i++) {
-        arr[i] = temp[i-low];
+    while(j<n2) {         /*If R[] has more elements than L[] then it will put all the reamining elements of R[] into A[]*/
+        A[k++]=R[j++];
     }
-
 }
 
 /*
@@ -488,20 +474,18 @@ void merge(int *arr, int low, int high) {
  * int low is always 0
  * int high is the max amount in the list
  */
-void mergeSort(int *arr, int low, int high){
+void mergeSort(int A[],int p,int r){
     //if there is more than one element in the list
-    if (low < high) {
-        //take the floor value of the # of elements in the array / 2 and name it mid
-        int mid = floor((low + high) / 2);
-        //call mergeSort using the new name of the list (arr) with low = 0 and mid = half the array size
-        mergeSort(arr, low, mid);
-        //call mergeSort using the same list with low = 0 and mid = 2 (if original high = 9), and high = previous mid
-        mergeSort(arr, mid + 1, high);
-        //call merge passing the list and the low = 0 and high = 4
-        merge(arr, low, high);
-    }
+    int q;
 
+    if(p<r) {
+        q=(p+r)/2;                      /*q is the middle element to divide the array*/
+        mergeSort(A,p,q);
+        mergeSort(A,q+1,r);
+        Merge(A,p,q,r);
+    }
 }
+
 
 /*
  * function: assignment2()
@@ -511,25 +495,568 @@ void mergeSort(int *arr, int low, int high){
  */
 void assignment2(){
 
-    //creating a list of 10 elements
-    int list1[10] = {900, 300, 400, 500, 200, 100, 550, 700, 1000, 2000};
+    ofstream myFile ("Mergesort_Time.csv");
+    if (myFile.is_open()) {
 
-    cout << "List 1 is as stated unsorted: ";
-    //printing the unsorted list1
-    for (int i=0; i<=9; i++){
-        cout << list1[i] << " ";
+        clock_t start1, start2, start3, start4, start5, start6, start7, start8, start9, end1, end2, end3, end4, end5, end6, end7, end8, end9;
+        double msecs1, msecs2, msecs3, msecs4, msecs5, msecs6, msecs7, msecs8, msecs9;
+
+        //creating a list of 10 elements
+        int array1[10], array1Sorted[10];
+        int array2[10], array2Sorted[10];
+        int array3[10], array3Sorted[10];
+        int array4[10], array4Sorted[10];
+        int array5[10], array5Sorted[10];
+        int array6[10], array6Sorted[10];
+        int array7[10], array7Sorted[10];
+        int array8[10], array8Sorted[10];
+        int array9[10], array9Sorted[10];
+
+        //user input
+        char input;
+
+        for (int i = 0; i <= 9; i++){
+            array1[i] = rand() % 100 + 0;
+            array2[i] = rand() % 100 + 0;
+            array3[i] = rand() % 100 + 0;
+            array4[i] = rand() % 100 + 0;
+            array5[i] = rand() % 100 + 0;
+            array6[i] = rand() % 100 + 0;
+            array7[i] = rand() % 100 + 0;
+            array8[i] = rand() % 100 + 0;
+            array9[i] = rand() % 100 + 0;
+        }
+
+        memcpy(array1Sorted, array1, sizeof(array1));
+        memcpy(array2Sorted, array2, sizeof(array2));
+        memcpy(array3Sorted, array3, sizeof(array3));
+        memcpy(array4Sorted, array4, sizeof(array4));
+        memcpy(array5Sorted, array5, sizeof(array5));
+        memcpy(array6Sorted, array6, sizeof(array6));
+        memcpy(array7Sorted, array7, sizeof(array7));
+        memcpy(array8Sorted, array8, sizeof(array7));
+        memcpy(array9Sorted, array9, sizeof(array8));
+
+
+        //calling mergesort with params (array, low, high)
+        start1 = clock();
+        mergeSort(array1Sorted, 0, 9);
+        end1 = clock();
+        msecs1 = ((double) (end1 - start1)) * 1000 / CLOCKS_PER_SEC;
+
+        start2 = clock();
+        mergeSort(array2Sorted, 0, 9);
+        end2 = clock();
+        msecs2 = ((double) (end2 - start2)) * 1000 / CLOCKS_PER_SEC;
+
+        start3 = clock();
+        mergeSort(array3Sorted, 0, 9);
+        end3 = clock();
+        msecs3 = ((double) (end3 - start3)) * 1000 / CLOCKS_PER_SEC;
+
+        start4 = clock();
+        mergeSort(array4Sorted, 0, 9);
+        end4 = clock();
+        msecs4 = ((double) (end4 - start4)) * 1000 / CLOCKS_PER_SEC;
+
+        start5 = clock();
+        mergeSort(array5Sorted, 0, 9);
+        end5 = clock();
+        msecs5 = ((double) (end5 - start5)) * 1000 / CLOCKS_PER_SEC;
+
+        start6 = clock();
+        mergeSort(array6Sorted, 0, 9);
+        end6 = clock();
+        msecs6 = ((double) (end6 - start6)) * 1000 / CLOCKS_PER_SEC;
+
+        start7 = clock();
+        mergeSort(array7Sorted, 0, 9);
+        end7 = clock();
+        msecs7 = ((double) (end7 - start7)) * 1000 / CLOCKS_PER_SEC;
+
+        start8 = clock();
+        mergeSort(array8Sorted, 0, 9);
+        end8 = clock();
+        msecs8 = ((double) (end8 - start8)) * 1000 / CLOCKS_PER_SEC;
+
+        start9 = clock();
+        mergeSort(array9Sorted, 0, 9);
+        end9 = clock();
+        msecs9 = ((double) (end9 - start9)) * 1000 / CLOCKS_PER_SEC;
+
+        cout << "View Unsorted Arrays? (y/n)" << endl;
+        cin >> input;
+        cin.ignore();
+        cout << endl;
+
+        switch (input) {
+            case 'y':
+                int input;
+                cout << "Select an Unsorted Array to View: " << endl << endl;
+                cout << "1 - Array1" << endl;
+                cout << "2 - Array2" << endl;
+                cout << "3 - Array3" << endl;
+                cout << "4 - Array4" << endl;
+                cout << "5 - Array5" << endl;
+                cout << "6 - Array6" << endl;
+                cout << "7 - Array7" << endl;
+                cout << "8 - Array8" << endl;
+                cout << "9 - Array9" << endl;
+                cin >> input;
+                cin.ignore();
+                cout << endl;
+
+                switch (input) {
+
+                    case 1:
+                        cout << "Unsorted Array 1: ";
+                        myFile << "Unsorted Array 1: ";
+                        for (int i = 0; i <= 9; i++) {
+                            cout << array1[i] << " ";
+                            myFile << array1[i] << " ";
+                        }
+                        cout << endl;
+                        myFile << endl;
+                        cout << "Sorted Array 1: ";
+                        myFile << "Sorted Array 1: ";
+                        for (int i = 0; i <= 9; i++) {
+                            cout << array1Sorted[i] << " ";
+                            myFile << array1Sorted[i] << " ";
+                        }
+                        cout << endl;
+                        cout << endl;
+                        myFile << endl;
+
+                        break;
+                    case 2:
+                        cout << "Unsorted Array 2: ";
+                        myFile << "Unsorted Array 2: ";
+                        for (int i = 0; i <= 9; i++) {
+                            cout << array2[i] << " ";
+                            myFile << array2[i] << " ";
+                        }
+                        cout << endl;
+                        myFile << endl;
+                        cout << "Sorted Array 2: ";
+                        myFile << "Sorted Array 2: ";
+                        for (int i = 0; i <= 9; i++) {
+                            cout << array2Sorted[i] << " ";
+                            myFile << array2Sorted[i] << " ";
+                        }
+                        cout << endl;
+                        cout << endl;
+                        myFile << endl;
+                        break;
+                    case 3:
+                        cout << "Unsorted Array 3: ";
+                        myFile << "Unsorted Array 3: ";
+                        for (int i = 0; i <= 9; i++) {
+                            cout << array3[i] << " ";
+                            myFile << array3[i] << " ";
+                        }
+                        cout << endl;
+                        myFile << endl;
+                        cout << "Sorted Array 3: ";
+                        myFile << "Sorted Array 3: ";
+                        for (int i = 0; i <= 9; i++) {
+                            cout << array3Sorted[i] << " ";
+                            myFile << array3Sorted[i] << " ";
+                        }
+                        cout << endl;
+                        cout << endl;
+                        myFile << endl;
+                        break;
+                    case 4:
+                        cout << "Unsorted Array 4: ";
+                        myFile << "Unsorted Array 4: ";
+                        for (int i = 0; i <= 9; i++) {
+                            cout << array4[i] << " ";
+                            myFile << array4[i] << " ";
+                        }
+                        cout << endl;
+                        myFile << endl;
+                        cout << "Sorted Array 4: ";
+                        myFile << "Sorted Array 4: ";
+                        for (int i = 0; i <= 9; i++) {
+                            cout << array4Sorted[i] << " ";
+                            myFile << array4Sorted[i] << " ";
+                        }
+                        cout << endl;
+                        cout << endl;
+                        myFile << endl;
+                        break;
+                    case 5:
+                        cout << "Unsorted Array 5: ";
+                        myFile << "Unsorted Array 5: ";
+                        for (int i = 0; i <= 9; i++) {
+                            cout << array5[i] << " ";
+                            myFile << array5[i] << " ";
+                        }
+                        cout << endl;
+                        myFile << endl;
+                        cout << "Sorted Array 5: ";
+                        myFile << "Sorted Array 5: ";
+                        for (int i = 0; i <= 9; i++) {
+                            cout << array5Sorted[i] << " ";
+                            myFile << array5Sorted[i] << " ";
+                        }
+                        cout << endl;
+                        cout << endl;
+                        myFile << endl;
+                        break;
+                    case 6:
+                        cout << "Unsorted Array 6: ";
+                        myFile << "Unsorted Array 6: ";
+                        for (int i = 0; i <= 9; i++) {
+                            cout << array6[i] << " ";
+                            myFile << array6[i] << " ";
+                        }
+                        cout << endl;
+                        myFile << endl;
+                        cout << "Sorted Array 6: ";
+                        myFile << "Sorted Array 6: ";
+                        for (int i = 0; i <= 9; i++) {
+                            cout << array6Sorted[i] << " ";
+                            myFile << array6Sorted[i] << " ";
+                        }
+                        cout << endl;
+                        cout << endl;
+                        myFile << endl;
+                        break;
+                    case 7:
+                        cout << "Unsorted Array 7: ";
+                        myFile << "Unsorted Array 7: ";
+                        for (int i = 0; i <= 9; i++) {
+                            cout << array7[i] << " ";
+                            myFile << array7[i] << " ";
+                        }
+                        cout << endl;
+                        myFile << endl;
+                        cout << "Sorted Array 7: ";
+                        myFile << "Sorted Array 7: ";
+                        for (int i = 0; i <= 9; i++) {
+                            cout << array7Sorted[i] << " ";
+                            myFile << array7Sorted[i] << " ";
+                        }
+                        cout << endl;
+                        cout << endl;
+                        myFile << endl;
+                        break;
+                    case 8:
+                        cout << "Unsorted Array 8: ";
+                        myFile << "Unsorted Array 8: ";
+                        for (int i = 0; i <= 9; i++) {
+                            cout << array8[i] << " ";
+                            myFile << array8[i] << " ";
+                        }
+                        cout << endl;
+                        myFile << endl;
+                        cout << "Sorted Array 8: ";
+                        myFile << "Sorted Array 8: ";
+                        for (int i = 0; i <= 9; i++) {
+                            cout << array8Sorted[i] << " ";
+                            myFile << array8Sorted[i] << " ";
+                        }
+                        cout << endl;
+                        cout << endl;
+                        myFile << endl;
+                        break;
+                    case 9:
+                        cout << "Unsorted Array 9: ";
+                        myFile << "Unsorted Array 9: ";
+                        for (int i = 0; i <= 9; i++) {
+                            cout << array9[i] << " ";
+                            myFile << array9[i] << " ";
+                        }
+                        cout << endl;
+                        myFile << endl;
+                        cout << "Sorted Array 9: ";
+                        myFile << "Sorted Array 9: ";
+                        for (int i = 0; i <= 9; i++) {
+                            cout << array9Sorted[i] << " ";
+                            myFile << array9Sorted[i] << " ";
+                        }
+                        cout << endl;
+                        cout << endl;
+                        myFile << endl;
+                        break;
+                }
+                break;
+
+            case 'n':
+                break;
+
+            default:
+                break;
+        }
+
+        char input2;
+
+        cout << "Continue with Programming Assignment 2? (y/n)";
+        cin >> input2;
+        cin.ignore();
+        cout << endl;
+
+        switch(input2) {
+            case 'y':
+                myFile << "Unsorted Array 1: ";
+                for (int i = 0; i <= 9; i++) {
+                    myFile << array1[i] << " ";
+                }
+                myFile << endl;
+
+                myFile << "Unsorted Array 2: ";
+                for (int i = 0; i <= 9; i++) {
+                    myFile << array2[i] << " ";
+                }
+                myFile << endl;
+
+                myFile << "Unsorted Array 3: ";
+                for (int i = 0; i <= 9; i++) {
+                    myFile << array3[i] << " ";
+                }
+                myFile << endl;
+
+                myFile << "Unsorted Array 4: ";
+                for (int i = 0; i <= 9; i++) {
+                    myFile << array4[i] << " ";
+                }
+                myFile << endl;
+
+                myFile << "Unsorted Array 5: ";
+                for (int i = 0; i <= 9; i++) {
+                    myFile << array5[i] << " ";
+                }
+                myFile << endl;
+
+                myFile << "Unsorted Array 6: ";
+                for (int i = 0; i <= 9; i++) {
+                    myFile << array6[i] << " ";
+                }
+                myFile << endl;
+
+                myFile << "Unsorted Array 7: ";
+                for (int i = 0; i <= 9; i++) {
+                    myFile << array7[i] << " ";
+                }
+
+                myFile << "Unsorted Array 8: ";
+                for (int i = 0; i <= 9; i++) {
+                    myFile << array8[i] << " ";
+                }
+
+                myFile << "Unsorted Array 9: ";
+                for (int i = 0; i <= 9; i++) {
+                    myFile << array9[i] << " ";
+                }
+                myFile << endl;
+
+
+                int logResult;
+                double divResult1, divResult2, divResult3, divResult4, divResult5, divResult6, divResult7, divResult8, divResult9;
+
+                logResult = (log10(10)*10);
+
+
+                cout << "Sorted Array 1: ";
+                myFile << "Sorted Array 1: ";
+                //print sorted list1
+                for (int i=0; i<=9; i++){
+                    cout << array1[i] << " ";
+                    myFile << array1[i] << " ";
+                }
+                cout << endl << "Time: " << msecs1 << " ms" << endl;
+                myFile << "Time: " << msecs1 << " ms" << endl;
+                cout << "The value passed into n*logn: 10" << endl;
+                myFile << "The value passed into n*logn: 10" << endl;
+                cout << "The value of n*logn: " << logResult << endl;
+                myFile << "The value of n*logn: " << logResult << endl;
+                divResult1 = logResult/msecs1;
+                cout << scientific <<"The value of n*logn / time (ms): " << divResult1 << endl;
+                myFile << "The value of n*logn / time (ms): " << divResult1 << endl;
+                cout << endl;
+                myFile << endl;
+
+
+                cout << "Sorted Array 2: ";
+                myFile << "Sorted Array 2: ";
+                //print sorted list1
+                for (int i=0; i<=9; i++){
+                    cout << array2[i] << " ";
+                    myFile << array2[i] << " ";
+                }
+                cout << endl << "Time: " << msecs2 << " ms" << endl;
+                myFile << "Time: " << msecs2 << " ms" << endl;
+                cout << "The value passed into n*logn: 10" << endl;
+                myFile << "The value passed into n*logn: 10" << endl;
+                cout << "The value of n*logn: " << logResult << endl;
+                myFile << "The value of n*logn: " << logResult << endl;
+                divResult2 = logResult/msecs2;
+                cout << scientific << "The value of n*logn / time (ms): " << divResult2 << endl;
+                myFile << "The value of n*logn / time (ms): " << divResult2 << endl;
+                cout << endl;
+                myFile << endl;
+
+
+
+                cout << "Sorted Array 3: ";
+                myFile << "Sorted Array 3: ";
+                //print sorted list1
+                for (int i=0; i<=9; i++){
+                    cout << array3[i] << " ";
+                    myFile << array3[i] << " ";
+                }
+                cout << endl << "Time: " << msecs3 << " ms" << endl;
+                myFile << "Time: " << msecs3 << " ms" << endl;
+                cout << "The value passed into n*logn: 10" << endl;
+                myFile << "The value passed into n*logn: 10" << endl;
+                cout << "The value of n*logn: " << logResult << endl;
+                myFile << "The value of n*logn: " << logResult << endl;
+                divResult3 = logResult/msecs3;
+
+                cout << scientific << "The value of n*logn / time (ms): " << divResult3 << endl;
+                myFile << "The value of n*logn / time (ms): " << divResult3 << endl;
+                cout << endl;
+                myFile << endl;
+
+
+                cout << "Sorted Array 4: ";
+                myFile << "Sorted Array 4: ";
+                //print sorted list1
+                for (int i=0; i<=9; i++){
+                    cout << array4[i] << " ";
+                    myFile << array4[i] << " ";
+                }
+                cout << endl << "Time: " << msecs4 << " ms" << endl;
+                myFile << "Time: " << msecs4 << " ms" << endl;
+                cout << "The value passed into n*logn: 10" << endl;
+                myFile << "The value passed into n*logn: 10" << endl;
+                cout << "The value of n*logn: " << logResult << endl;
+                myFile << "The value of n*logn: " << logResult << endl;
+                divResult4 = logResult/msecs4;
+                cout << scientific << "The value of n*logn / time (ms): " << divResult4 << endl;
+                myFile << "The value of n*logn / time (ms): " << divResult4 << endl;
+                cout << endl;
+                myFile << endl;
+
+
+                cout << "Sorted Array 5: ";
+                myFile << "Sorted Array 5: ";
+                //print sorted list1
+                for (int i=0; i<=9; i++){
+                    cout << array5[i] << " ";
+                    myFile << array5[i] << " ";
+                }
+                cout << endl << "Time: " << msecs5 << " ms" << endl;
+                myFile << "Time: " << msecs5 << " ms" << endl;
+                cout << "The value passed into n*logn: 10" << endl;
+                myFile << "The value passed into n*logn: 10" << endl;
+                cout << "The value of n*logn: " << logResult << endl;
+                myFile << "The value of n*logn: " << logResult << endl;
+                divResult5 = logResult/msecs5;
+                cout << scientific << "The value of n*logn / time (ms): " << divResult5 << endl;
+                myFile << "The value of n*logn / time (ms): " << divResult5 << endl;
+                cout << endl;
+                myFile << endl;
+
+
+                cout << "Sorted Array 6: ";
+                myFile << "Sorted Array 6: ";
+                //print sorted list1
+                for (int i=0; i<=9; i++){
+                    cout << array6[i] << " ";
+                    myFile << array6[i] << " ";
+                }
+                cout << endl << "Time: " << msecs6 << " ms" << endl;
+                myFile << "Time: " << msecs6 << " ms" << endl;
+                cout << "The value passed into n*logn: 10" << endl;
+                myFile << "The value passed into n*logn: 10" << endl;
+                cout << "The value of n*logn: " << logResult << endl;
+                myFile << "The value of n*logn: " << logResult << endl;
+                divResult6 = logResult/msecs6;
+                cout << scientific << "The value of n*logn / time (ms): " << divResult6 << endl;
+                myFile << "The value of n*logn / time (ms): " << divResult6 << endl;
+                cout << endl;
+                myFile << endl;
+
+
+                myFile << endl;
+                cout << "Sorted Array 7: ";
+                myFile << "Sorted Array 7: ";
+                //print sorted list1
+                for (int i=0; i<=9; i++){
+                    cout << array7[i] << " ";
+                    myFile << array7[i] << " ";
+                }
+                cout << endl << "Time: " << msecs7 << " ms" << endl;
+                myFile << "Time: " << msecs7 << " ms" << endl;
+                cout << "The value passed into n*logn: 10" << endl;
+                myFile << "The value passed into n*logn: 10" << endl;
+                cout << "The value of n*logn: " << logResult << endl;
+                myFile << "The value of n*logn: " << logResult << endl;
+                divResult7 = logResult/msecs7;
+                cout << scientific << "The value of n*logn / time (ms): " << divResult7 << endl;
+                myFile << "The value of n*logn / time (ms): " << divResult7 << endl;
+                cout << endl;
+                myFile << endl;
+
+
+                myFile << endl;
+                cout << "Sorted Array 8: ";
+                myFile << "Sorted Array 8: ";
+                //print sorted list1
+                for (int i=0; i<=9; i++){
+                    cout << array8[i] << " ";
+                    myFile << array8[i] << " ";
+                }
+                cout << endl << "Time: " << msecs8 << " ms" << endl;
+                myFile << "Time: " << msecs8 << " ms" << endl;
+                cout << "The value passed into n*logn: 10" << endl;
+                myFile << "The value passed into n*logn: 10" << endl;
+                cout << "The value of n*logn: " << logResult << endl;
+                myFile << "The value of n*logn: " << logResult << endl;
+                divResult8 = logResult/msecs8;
+                cout << scientific << "The value of n*logn / time (ms): " << divResult8 << endl;
+                myFile << "The value of n*logn / time (ms): " << divResult8 << endl;
+                cout << endl;
+                myFile << endl;
+
+                cout << "Sorted Array 9: ";
+                myFile << "Sorted Array 9: ";
+                //print sorted list1
+                for (int i=0; i<=9; i++){
+                    cout << array9[i] << " ";
+                    myFile << array9[i] << " ";
+                }
+                cout << endl << "Time: " << msecs9 << " ms" << endl;
+                myFile << "Time: " << msecs9 << " ms" << endl;
+                cout << "The value passed into n*logn: 10" << endl;
+                myFile << "The value passed into n*logn: 10" << endl;
+                cout << "The value of n*logn: " << logResult << endl;
+                myFile << "The value of n*logn: " << logResult << endl;
+                divResult9 = logResult/msecs9;
+                cout << scientific << "The value of n*logn / time (ms): " << divResult9 << endl;
+                myFile << "The value of n*logn / time (ms): " << divResult9 << endl;
+                cout << endl;
+                myFile << endl;
+                break;
+            case 'n':
+                cout << "Returning to main menu" << endl;
+                menu();
+                break;
+            default:
+                cout << "Invalid Entry. Returning to main menu" << endl;
+                menu();
+                break;
+
+        }
     }
-    cout << endl;
-
-    //calling mergesort with params (array, low, high)
-    mergeSort(list1, 0, 9);
-
-    cout << "List 1 is as stated sorted: ";
-    //print sorted list1
-    for (int i=0; i<=9; i++){
-        cout << list1[i] << " ";
+    else {
+        cout << "The excel file failed to open. Returning to main menu." << endl;
+        menu();
     }
-    cout << endl << endl;
+
+
 
 }
 
