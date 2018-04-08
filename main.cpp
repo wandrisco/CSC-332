@@ -3,6 +3,7 @@
 #include <fstream>
 #include <iomanip>
 #include <vector>
+#include <random>
 
 using namespace std;
 
@@ -19,6 +20,40 @@ void printVector(vector <int> vect) {
 
         cout << vect[i] << " ";
     }
+}
+
+int *createList(int *list(), int sizeList) {
+    char choice;
+    cout << "Would you like to view the lists? (y/n)" << endl;
+    cin >> choice;
+    cout << endl;
+
+    switch (choice) {
+        case 'y':
+            //creates the list
+            for (int i = 1; i <= sizeList; i++) {
+                int *p;
+                //p is set to the value that randomArray returns
+                p = list();
+                //prints the list
+                cout << i << ": ";
+                printArray(p, sizeList);
+                cout << endl << endl;
+            }
+            break;
+        case 'n':
+            for (int i = 1; i <= sizeList; i++) {
+                int *p;
+                //p is set to the value that randomArray returns
+                p = list();
+            }
+            break;
+
+    } //end nested Switch for choice y
+}
+
+void lineBreak() {
+    cout << endl << endl;
 }
 
 /*
@@ -497,14 +532,52 @@ void mergeSort(int A[], int p, int r) {
     }
 }
 
-void randomArrayHandler() {
+int *randomArray(int arrSize, int numArr, int minRange, int maxRange) {
+
+    //creates numArr amount of arrays
+    for (int h = 1; h <= numArr; h++) {
+        int *p;
+        p = new int[arrSize];
+
+        //fills the array
+        for (int i = 0; i <= arrSize; i++) {
+            p[i] = rand() % maxRange + minRange;
+        }
+
+        return p;
+        //returns *p to whatever calls randomArray
+    }
+}
+
+int *Array(int arrSize, int numArr) {
+
+    //creates numArr amount of arrays
+    for (int i = 1; i <= numArr; i++) {
+        static int *p;
+        p = new int [arrSize];
+
+        cout << "Array " << i << endl;
+        for (int j = 0; j <= arrSize; j++) {
+            cout << "Element " << j << ": ";
+            cin >> p[j];
+
+        }
+        cout << endl;
+
+    }
+}
+
+
+
+void ArrayHandler() {
 
     char userInput;
     int arrSize;
     int numArr;
-    int ranRange;
+    int minRange;
+    int maxRange;
 
-    cout << "Would you like to create a list? (y/n)" << endl;
+    cout << "Would you like to create a Random list? (y/n)" << endl;
     cin >> userInput;
     cout << endl;
 
@@ -512,29 +585,103 @@ void randomArrayHandler() {
         case 'y':
             cout << "Number of Arrays: ";
             cin >> numArr;
-            cout << endl << endl;
             cout << "Array Size: ";
             cin >> arrSize;
-            cout << endl << endl;
-            cout << "Random Integer Range 0-";
-            cin >> ranRange;
-            cout << endl << endl;
-            //randomArray(arrSize, numArr, ranRange);
+            arrSize = arrSize - 1;
+            cout << "Random Integer Min Range: ";
+            cin >> minRange;
+            cout << "Random Integer Max Range: ";
+            cin >> maxRange;
+            cout << endl;
+
+            createList(randomArray, numArr);
+
+/*            char choice;
+            cout << "Would you like to view the lists? (y/n)" << endl;
+            cin >> choice;
+            cout << endl;
+
+*//*            switch (choice) {
+                case 'y':
+                    //creates the list
+                    for (int i = 1; i <= numArr; i++) {
+                        int *p;
+                        //p is set to the value that randomArray returns
+                        p = randomArray(arrSize, numArr, minRange, maxRange);
+                        //prints the list
+                        cout << i << ": ";
+                        printArray(p, arrSize);
+                        lineBreak();
+                    }
+                    break;
+                case 'n':
+                    for (int i = 1; i <= numArr; i++) {
+                        int *p;
+                        //p is set to the value that randomArray returns
+                        p = randomArray(arrSize, numArr, minRange, maxRange);
+                    }
+                    break;
+
+            } //end nested Switch for choice y*/
             break;
         case 'n':
+
+            char choice2;
+
+            cout << "Would you like to enter the elements of the list? (y/n)" << endl;
+            cin >> choice2;
+            cout << endl;
+
+            switch (choice2) {
+                case 'y':
+                    cout << "Number of Arrays: ";
+                    cin >> numArr;
+                    cout << "Array Size: ";
+                    cin >> arrSize;
+                    arrSize = arrSize - 1;
+                    cout << endl;
+
+                    for (int i = 1; i <= numArr; i++) {
+                        int *p;
+                        //p is set to the value that randomArray returns
+                        p = Array(arrSize, numArr);
+
+                        char choice3;
+
+                        cout << "Confirm List? (y/n)" << endl;
+                        cin >> choice3;
+                        if ('y') {
+                            //print the array that the Array function returns
+                            cout << i << ": ";
+                            printArray(p, arrSize);
+                            lineBreak();
+                        }
+                        else {
+                            cout << "you chose no" << endl;
+                        }
+
+
+                    }
+
+
+                    //char choice;
+                    //cout << "Would you like to view the lists? (y/n)" << endl;
+                    //cin >> choice;
+                    //cout << endl;
+
+
+                    break;
+
+                case 'n':
+                    cout << "No list created. Cannot continue with Program.";
+                    lineBreak();
+                    break;
+
+            } //end nested Switch for choice n
+
             break;
-    }
-
-    vector <int> unsorted;
-
-
-
-}
-
-
-void randomArray() {
-
-}
+    } //end Switch
+} //end ArrayHandler
 
 /*
  * function: assignment2()
@@ -1039,7 +1186,8 @@ void assignment2() {
     }
 }
 
-void assignment3(vector <int> unsorted) {
+void assignmentExtra() {
+
 }
 
 /*
@@ -1061,6 +1209,7 @@ void menu() {
          << "3 - Euclid's Improved Algorithm\n"
          << "4 - Programming Assignment 1\n"
          << "5 - Programming Assignment 2\n"
+         << "6 - Programming Assignment 2.5\n"
          << "9 - Terminate Program\n\n";
     //ask the user to input a menu option
     cout << "Enter a menu option: ";
@@ -1147,7 +1296,8 @@ void choice(int input) {
                 returnMenu();
                 break;
             case 6:
-                randomArrayHandler();
+                ArrayHandler();
+                cout << "you have exited the array handler" << endl;
                 returnMenu();
                 break;
             case 9:
