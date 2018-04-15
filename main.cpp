@@ -22,7 +22,13 @@ void printVector(vector <int> vect) {
     }
 }
 
-int *createList(int *list(), int sizeList) {
+void createList(int *list(), int sizeList) {
+
+    int *p;
+    for (int i = 1; i <= sizeList; i++) {
+        p = list();
+    }
+
     char choice;
     cout << "Would you like to view the lists? (y/n)" << endl;
     cin >> choice;
@@ -32,21 +38,21 @@ int *createList(int *list(), int sizeList) {
         case 'y':
             //creates the list
             for (int i = 1; i <= sizeList; i++) {
-                int *p;
+                //int *p = list();
                 //p is set to the value that randomArray returns
-                p = list();
+                //p = list();
                 //prints the list
                 cout << i << ": ";
                 printArray(p, sizeList);
                 cout << endl << endl;
+
+                if (i != sizeList) {
+                    cout << "i broke too early" << endl;
+                }
             }
             break;
         case 'n':
-            for (int i = 1; i <= sizeList; i++) {
-                int *p;
-                //p is set to the value that randomArray returns
-                p = list();
-            }
+            cout << "you chose not to print the list " << endl;
             break;
 
     } //end nested Switch for choice y
@@ -532,7 +538,102 @@ void mergeSort(int A[], int p, int r) {
     }
 }
 
-int *randomArray(int arrSize, int numArr, int minRange, int maxRange) {
+int *arrayFiller(int numArr, int arrSize, int *p) {
+    int choice;
+
+    cout << "Which type of list would you like to create?" << endl << endl;
+    cout << "1 - Random List" << endl;
+    cout << "2 - Input Elements" << endl << endl;
+    cin >> choice;
+
+    switch (choice) {
+        case 1:
+            int minRange, maxRange;
+
+            cout << "Minimum Random Integer Value: ";
+            cin >> minRange;
+            cout << "Maximum Random Integer Value: ";
+            cin >> maxRange;
+            cout <<endl;
+
+
+            //fills the array
+            for (int h = 1; h <= numArr; h++) {
+                for (int i = 0; i <= arrSize; i++) {
+                    p[i] = rand() % maxRange + minRange;
+                    cout << i << ": ";
+                    printArray(p, arrSize);
+                    cout << endl;
+                    break;
+                } //end nested for
+                cout << endl;
+            } // end for
+
+            return p;
+            //returns *
+            //p to whatever calls randomArray
+            break;
+
+        case 2:
+            for (int i = 1; i <= numArr; i++) {
+                cout << "Array " << i << endl;
+                for (int j = 0; j <= arrSize; j++) {
+                    cout << "Element " << j << ": ";
+                    cin >> p[j];
+                } //end nested for
+                cout << endl;
+            } // end for
+            return p;
+            break;
+    } //end switch
+
+
+}
+
+/*
+ * function: arrayBuilder
+ * should build numArr amount of Arrays at the size of arrSize
+ */
+int *arrayBuilder() {
+
+    int numArr, arrSize;
+
+    cout << "Number of Arrays: ";
+    cin >> numArr;
+    cout << "Array Size: ";
+    cin >> arrSize;
+    arrSize = arrSize - 1;
+    cout << endl;
+
+    int *p_i;
+
+    for (int i = 1; i <= numArr; i++) {
+        p_i = new int[arrSize];
+        p_i[0] = 10;
+        p_i[4] = 100;
+        cout << "The Array #: " << p_i;
+        cout << endl << endl;
+    }
+
+    //numArr -> lets pass the number of arrays we want to create (so we know how many times to loop)
+    //arrSize -> lets pass the size of the arrays (so we know when to quit filling the array)
+    //p -> and lets actually pass the array we built
+    // lets set whatever arrayFiller returns to p
+    p = arrayFiller(numArr, arrSize, p);
+
+    return p;
+}
+
+int *randomArray(int arrSize, int numArr) {
+
+    int minRange;
+    int maxRange;
+
+    cout << "Random Integer Min Range: ";
+    cin >> minRange;
+    cout << "Random Integer Max Range: ";
+    cin >> maxRange;
+    cout << endl;
 
     //creates numArr amount of arrays
     for (int h = 1; h <= numArr; h++) {
@@ -542,10 +643,11 @@ int *randomArray(int arrSize, int numArr, int minRange, int maxRange) {
         //fills the array
         for (int i = 0; i <= arrSize; i++) {
             p[i] = rand() % maxRange + minRange;
+            break;
         }
-
         return p;
-        //returns *p to whatever calls randomArray
+        //returns *
+        //p to whatever calls randomArray
     }
 }
 
@@ -567,65 +669,50 @@ int *Array(int arrSize, int numArr) {
     }
 }
 
-
-
 void ArrayHandler() {
 
-    char userInput;
+    int userInput;
     int arrSize;
     int numArr;
     int minRange;
     int maxRange;
 
-    cout << "Would you like to create a Random list? (y/n)" << endl;
+    cout << "Which kind of list would you like to create?" << endl << endl;
+    cout << "1 - Random List" << endl;
+    cout << "2 - Input List Elements" << endl;
     cin >> userInput;
     cout << endl;
 
     switch (userInput) {
-        case 'y':
+        case 1:
             cout << "Number of Arrays: ";
             cin >> numArr;
             cout << "Array Size: ";
             cin >> arrSize;
             arrSize = arrSize - 1;
-            cout << "Random Integer Min Range: ";
-            cin >> minRange;
-            cout << "Random Integer Max Range: ";
-            cin >> maxRange;
-            cout << endl;
 
-            createList(randomArray, numArr);
+            int *p;
+            //p = arrayBuilder(arrSize, numArr);
 
-/*            char choice;
-            cout << "Would you like to view the lists? (y/n)" << endl;
-            cin >> choice;
-            cout << endl;
+            //int *p;
+            //p = randomArray(arrSize, numArr);
 
-*//*            switch (choice) {
-                case 'y':
-                    //creates the list
-                    for (int i = 1; i <= numArr; i++) {
-                        int *p;
-                        //p is set to the value that randomArray returns
-                        p = randomArray(arrSize, numArr, minRange, maxRange);
-                        //prints the list
-                        cout << i << ": ";
-                        printArray(p, arrSize);
-                        lineBreak();
-                    }
-                    break;
-                case 'n':
-                    for (int i = 1; i <= numArr; i++) {
-                        int *p;
-                        //p is set to the value that randomArray returns
-                        p = randomArray(arrSize, numArr, minRange, maxRange);
-                    }
-                    break;
+            //createList(reinterpret_cast<int *(*)()>(randomArray(arrSize, numArr)), numArr);
 
-            } //end nested Switch for choice y*/
+            // creates the list
+
+            for (int i = 1; i <= numArr; i++) {
+                int *p;
+                //p is set to the value that randomArray returns
+                //p = randomArray(arrSize, numArr);
+                //prints the list
+                cout << i << ": ";
+                printArray(p, arrSize);
+                lineBreak();
+            }
             break;
-        case 'n':
 
+        case 2:
             char choice2;
 
             cout << "Would you like to enter the elements of the list? (y/n)" << endl;
@@ -663,23 +750,21 @@ void ArrayHandler() {
 
                     }
 
-
                     //char choice;
                     //cout << "Would you like to view the lists? (y/n)" << endl;
                     //cin >> choice;
                     //cout << endl;
 
 
-                    break;
+                    //break;
 
                 case 'n':
                     cout << "No list created. Cannot continue with Program.";
                     lineBreak();
                     break;
 
-            } //end nested Switch for choice n
-
-            break;
+            }//end nested Switch for choice n
+             break;
     } //end Switch
 } //end ArrayHandler
 
@@ -1296,7 +1381,14 @@ void choice(int input) {
                 returnMenu();
                 break;
             case 6:
-                ArrayHandler();
+                int *p;
+
+                p = arrayBuilder();
+
+                cout << "The value of p: " << &p;
+                lineBreak();
+
+                //ArrayHandler();
                 cout << "you have exited the array handler" << endl;
                 returnMenu();
                 break;
