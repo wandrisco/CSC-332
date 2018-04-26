@@ -71,7 +71,38 @@ void printAdjList(int e, int v) {
     } //end for
 }
 
-void printAdjMatrix() {
+void printAdjMatrix(int e, int v) {
+
+    int adj_matrix[e][2];
+
+    // Take the input of the adjacent vertex pairs of the given graph.
+    for(int i = 0; i < e; i++) {
+        cout << "Enter the vertex pair for edge "<<i+1;
+        cout << "V(1): ";
+        cin >> adj_matrix[i][0];
+        cout << "V(2): ";
+        cin >> adj_matrix[i][1];
+    }
+    cout << endl << endl;
+
+    printf("Adjacency matrix");
+    cout << endl;
+    printf("   ");
+    for (c = 0; c < nodes; c++) {
+        printf("%.1d ", c + 1);
+    }
+    printf("\n");
+    for (c = 0; c < nodes; c++) {
+        printf("---");
+    }
+    printf("\n");
+    for (r = 0; r < nodes; r++) {
+        printf("%.1d| ", r+1);
+        for (c = 0; c < nodes; c++) {
+            printf("%.1d ", adj_matrix[r][c]);
+        }
+        printf("\n");
+    }
 
 }
 
